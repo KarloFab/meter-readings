@@ -1,0 +1,57 @@
+
+Functional requirements
+
+Each client resides at a specific address.
+
+ - @OneToOne relationship on Client and Address
+
+There cannot be two clients at the same address (pay attention how this check will be implemented, HINT: object equality).
+
+ - Can be tested using /api/clients - POST
+ - Endpoint uses ClientCreateDTO
+ - I have created this check in ClientServiceImpl by checking if Address already exists by street name
+ - Check could have been made by some additional properties, maybe all of them
+ - I could have also used overriden equals method for checking whether address already exists by comparing addresses
+
+Each client can have only one meter.
+
+ - @OneToOne relationship on Client and Meter
+
+We should be able to get the aggregate meter reading for a year.
+The response should contain the year and the aggregate value for that year (example: year = 2018, total = 30).
+
+ - Can be tested using endpoint: /api/meter-readings/aggregated - GET
+ - year parameter is required
+ - I could have added additional param in /api/meter-readings, like Boolean aggregated, but I decoupled this in a new
+   endpoint since it seemed more logical from frontend perspective. Method in service layer also looked clearer
+   without additional if-else code.
+ - Also I have created new DTO with appropriate and necessary fields that should be returned
+
+We should be able to get the meter readings per year.
+The response should contain the year and the meter readings for each month, including the month name (example, year = 2018, January = 2, February = 5,
+March = 7, etc.).
+
+ - Can be tested using endpoint: /api/meter-readings - GET -> Integration test exists for this case
+ - year parameter is required
+ - month is optional
+
+We should be able to get the meter reading per month per year.
+The response should include the year, the month and the value for the requested month (example: year = 2017, September = 21).
+
+ - Can be tested using endpoint: /api/meter-readings - GET
+ - year parameter is required
+ - month is optional, but in this case is required
+
+Bonus task
+
+Implement additional REST endpoint which will allow to add additional meter readings to the meter.
+We should be able to add a specific meter reading value for a specific year and specific month
+(if the month already has a meter reading value, an appropriate error should be raised).
+Add data persistency with an in memory relational data storage.
+
+ - Can be tested using endpoint: /api/meter-readings - POST -> Integration test exists for this case
+ - MeterReadingCreateDTO is used for creating MeterReading
+ - MeterId is required
+ - Available meters can be retrieved from endpoint /api/meters
+ - Error is raised when there already is reading for that month and year -> Integration test exists for this case
+ - In memory data storage is implemented using H2 database

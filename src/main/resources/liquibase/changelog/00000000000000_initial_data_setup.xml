@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="00000000000000" author="kfabijanic">
+        <createSequence sequenceName="sequence_generator" startValue="100" incrementBy="1"/>
+    </changeSet>
+
+
+    <changeSet id="00000000000002" author="kfabijanic">
+        <createTable tableName="client">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="meter">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="model" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="client_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_client_meter_id" />
+            </column>
+        </createTable>
+
+        <createTable tableName="meter_reading">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="year" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="month" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="electricity_consumption" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="meter_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="address">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="street" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="postal_code" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="client_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_client_address_id" />
+            </column>
+        </createTable>
+
+    </changeSet>
+
+    <changeSet id="00000000000003" author="kfabijanic">
+        <loadData encoding="UTF-8"
+                  file="liquibase/clients.csv"
+                  separator=";"
+                  tableName="client"/>
+
+        <loadData encoding="UTF-8"
+                  file="liquibase/meters.csv"
+                  separator=";"
+                  tableName="meter"/>
+
+        <loadData encoding="UTF-8"
+                  file="liquibase/meter-readings.csv"
+                  separator=";"
+                  tableName="meter_reading"/>
+
+
+        <loadData encoding="UTF-8"
+                  file="liquibase/addresses.csv"
+                  separator=";"
+                  tableName="address"/>
+
+    </changeSet>
+
+</databaseChangeLog>
