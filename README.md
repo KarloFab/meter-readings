@@ -5,17 +5,17 @@ Application uses H2 in memory database for data persistence and Swagger UI for c
 APIs overview and easy APIs usage. Please check Notes.txt for additional explanation of
 development and application usage.
 
-#Running application
+## Running application
 Application can be started using command:
 
     mvn spring-boot:run
 
-#Running tests
+## Running tests
 Application tests can be started using command:
 
     mvn test
     
-#Database
+## Database
 When application is started, access to database is available via link:
 
     http://localhost:8080/h2-console
@@ -29,7 +29,7 @@ Data location is in folder:
 
     /src/main/resources/liquibase
   
-#Swagger
+## Swagger
 Application APIs can be overviewed and tested by using Swagger. Each endpoint is described along with parameters
  it uses. Once application is started,
 Swagger UI is available on link:
