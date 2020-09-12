@@ -11,7 +11,7 @@
     </changeSet>
 
 
-    <changeSet id="00000000000002" author="kfabijanic">
+    <changeSet id="00000000000001" author="kfabijanic">
         <createTable tableName="client">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -76,6 +76,27 @@
         </createTable>
 
     </changeSet>
+
+    <changeSet id="00000000000002" author="karlofabijanic">
+        <addForeignKeyConstraint baseColumnNames="meter_id"
+                                 baseTableName="meter_reading"
+                                 constraintName="fk_meter_reading_meter_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="meter"/>
+
+        <addForeignKeyConstraint baseColumnNames="client_id"
+                                 baseTableName="meter"
+                                 constraintName="fk_meter_client_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="client"/>
+
+        <addForeignKeyConstraint baseColumnNames="client_id"
+                                 baseTableName="address"
+                                 constraintName="fk_address_client_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="client"/>
+    </changeSet>
+
 
     <changeSet id="00000000000003" author="kfabijanic">
         <loadData encoding="UTF-8"
